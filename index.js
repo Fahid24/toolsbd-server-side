@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -26,6 +26,20 @@ async function run() {
             res.send(tools)
         })
 
+        app.post('/tools', async (req, res) => {
+            const query = req.body;
+            const result = await toolsCollection.insertOne(query);
+            res.send(result)
+        })
+
+        app.get('/tools/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const cursor = toolsCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
     }
     finally {
 
@@ -37,7 +51,7 @@ run().catch(console.dir)
 
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('ToolsBd World!')
 })
 
 app.listen(port, () => {
