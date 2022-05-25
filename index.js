@@ -18,7 +18,9 @@ async function run() {
 
     try {
         await client.connect();
-        const toolsCollection = client.db('tools_bd').collection('tools')
+        const toolsCollection = client.db('tools_bd').collection('tools');
+        const bookingCollection = client.db('tools_bd').collection('booking');
+
         app.get('/tools', async (req, res) => {
             const query = {};
             const cursor = toolsCollection.find(query);
@@ -26,9 +28,9 @@ async function run() {
             res.send(tools)
         })
 
-        app.post('/tools', async (req, res) => {
-            const query = req.body;
-            const result = await toolsCollection.insertOne(query);
+        app.post('/booking', async (req, res) => {
+            const booking = req.body;
+            const result = await bookingCollection.insertOne(booking);
             res.send(result)
         })
 
