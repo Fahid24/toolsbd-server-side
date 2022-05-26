@@ -34,6 +34,18 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/booking/:email', async (req, res) => {
+            const query = { email: req.params.email };
+            const cursor = bookingCollection.find(query);
+            const booking = await cursor.toArray();
+            res.send(booking)
+        })
+
+        // app.get('/parts/:email', async (req, res) => {
+        //     const result = await orderCollection.find({ email: req.params.email }).toArray();
+        //     res.send(result)
+        // })
+
         app.get('/tools/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
