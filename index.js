@@ -20,6 +20,8 @@ async function run() {
         await client.connect();
         const toolsCollection = client.db('tools_bd').collection('tools');
         const bookingCollection = client.db('tools_bd').collection('booking');
+        const reviewCollection = client.db('tools_bd').collection('review');
+        const prfileCollection = client.db('tools_bd').collection('profile');
 
         app.get('/tools', async (req, res) => {
             const query = {};
@@ -33,6 +35,11 @@ async function run() {
             const result = await bookingCollection.insertOne(booking);
             res.send(result)
         })
+        app.post('/profile', async (req, res) => {
+            const profile = req.body;
+            const result = await profileCollection.insertOne(profile);
+            res.send(result)
+        })
 
         app.get('/booking/:email', async (req, res) => {
             const query = { email: req.params.email };
@@ -40,11 +47,20 @@ async function run() {
             const booking = await cursor.toArray();
             res.send(booking)
         })
+        app.get('/profile', async (req, res) => {
+            const query = {};
+            const cursor = profileCollection.find(query);
+            const profile = await cursor.toArray();
+            res.send(profile)
+        })
 
-        // app.get('/parts/:email', async (req, res) => {
-        //     const result = await orderCollection.find({ email: req.params.email }).toArray();
-        //     res.send(result)
+        // app.delete('/booking/:email', async (req, res) => {
+        //     const email = req.params.email;
+        //     const filter = { email: email };
+        //     const result = await bookingCollection.deleteOne(filter);
+        //     res.send(result);
         // })
+
 
         app.get('/tools/:id', async (req, res) => {
             const id = req.params.id;
@@ -52,6 +68,27 @@ async function run() {
             const cursor = toolsCollection.find(query);
             const result = await cursor.toArray();
             res.send(result)
+        })
+
+        app.post('/review', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.send(result)
+        })
+
+        app.get('/review', async (req, res) => {
+            const query = {};
+            const cursor = reviewCollection.find(query);
+            const review = await cursor.toArray();
+            res.send(review)
+        })
+
+
+        app.delete('/booking/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await bookingCollection.deleteOne(filter);
+            res.send(result);
         })
 
     }
