@@ -105,6 +105,12 @@ async function run() {
             const result = await bookingCollection.insertOne(booking);
             res.send(result)
         })
+
+        app.get('/booking', async (req, res) => {
+            const booking = await bookingCollection.find().toArray();
+            res.send(booking);
+        });
+
         app.post('/profile', async (req, res) => {
             const profile = req.body;
             const result = await profileCollection.insertOne(profile);
