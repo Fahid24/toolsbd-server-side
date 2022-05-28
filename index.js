@@ -167,6 +167,12 @@ async function run() {
             const result = await userCollection.deleteOne(filter);
             res.send(result);
         })
+        // app.delete('/tools/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const filter = { _id: ObjectId(id) };
+        //     const result = await toolsCollection.deleteOne(filter);
+        //     res.send(result);
+        // })
 
 
     }
